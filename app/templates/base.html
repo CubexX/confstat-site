@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ page_title }}</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/Chart.js"></script>
+    <script src="/static/js/main.js"></script>
+</head>
+<body>
+<div class="navbar navbar-inverse">
+    <div class="container-fluid">
+        {% block navbar %}{% endblock%}
+    </div>
+</div>
+<div class="container-fluid">{% block content %}{% endblock %}</div>
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/bootstrap.min.js"></script>
+</body>
+</html>

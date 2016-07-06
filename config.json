@@ -1,0 +1,9 @@
+{
+  "db": {
+    "driver": "mysql",
+    "host": "localhost",
+    "database": "confstat",
+    "user": "",
+    "password": ""
+  }
+}
