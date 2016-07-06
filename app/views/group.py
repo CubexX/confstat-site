@@ -42,7 +42,7 @@ def group(chat_hash):
             i += 1
 
         # Average number of users
-        average_users = round(average_users / i, 1)
+        average_users = round(average_users / i)
 
         # Generating user list
         users = []
@@ -54,40 +54,20 @@ def group(chat_hash):
 
         # Generating entities
         entities = {'total': 0,
-                    'photos': 0,
+                    'photo': 0,
                     'audio': 0,
-                    'videos': 0,
-                    'files': 0,
-                    'links': 0,
-                    'hashtags': 0,
-                    'commands': 0,
-                    'mentions': 0}
+                    'video': 0,
+                    'document': 0,
+                    'url': 0,
+                    'hashtag': 0,
+                    'bot_command': 0,
+                    'mention': 0}
         _entities = Entity.where('cid', cid).get().all()
         for entity in _entities:
-            if entity.type == 'photo':
-                entities['photos'] = entity.count
-
-            if entity.type == 'audio' or entity.type == 'voice':
+            if entity.type == 'voice':
                 entities['audio'] += entity.count
-
-            if entity.type == 'video':
-                entities['videos'] = entity.count
-
-            if entity.type == 'document':
-                entities['files'] = entity.count
-
-            if entity.type == 'url':
-                entities['links'] += entity.count
-
-            if entity.type == 'hashtag':
-                entities['hashtags'] += entity.count
-
-            if entity.type == 'bot_command':
-                entities['commands'] += entity.count
-
-            if entity.type == 'mention':
-                entities['mentions'] += entity.count
-
+            else:
+                entities[entity.type] += entity.count
             entities['total'] += entity.count
 
         return render_template('group.html',

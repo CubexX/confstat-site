@@ -3,6 +3,7 @@ __author__ = 'CubexX'
 
 from flask import Flask
 from flask_orator import Orator
+from werkzeug.contrib.fixers import ProxyFix
 import json
 
 with open('config.json', 'r') as file:
@@ -18,6 +19,7 @@ app.config['ORATOR_DATABASES'] = {
         'password': CONFIG['db']['password']
     }
 }
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 db = Orator(app)
 
