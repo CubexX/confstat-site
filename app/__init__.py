@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 __author__ = 'CubexX'
 
-from flask import Flask
-from flask_orator import Orator
 from werkzeug.contrib.fixers import ProxyFix
+from flask_orator import Orator
+from flask import Flask
+import memcache
 import json
 
 with open('config.json', 'r') as file:
     CONFIG = json.loads(file.read())
+
+cache = memcache.Client(['127.0.0.1:11211'], debug=True)
 
 app = Flask(__name__, static_folder='../static')
 app.config['ORATOR_DATABASES'] = {

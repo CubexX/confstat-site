@@ -1,3 +1,4 @@
 flask==0.10.1
 orator==0.8.2
 flask-orator==0.1.1
+python-memcached==1.58
