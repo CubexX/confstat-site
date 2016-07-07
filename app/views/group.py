@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 __author__ = 'CubexX'
 
-from app import app
 from app.models import Chat, User, Entity, ChatStat, UserStat
-from flask import render_template
+from flask import render_template, redirect
 from datetime import datetime
+from app import app
 
 
 @app.route('/group/<chat_hash>')
@@ -16,7 +16,7 @@ def group(chat_hash):
         # Chat id
         cid = chat_stats[0].cid
         # Chat title
-        chat_title = Chat.where('cid', cid).get()[0].title
+        chat_title = Chat.get(cid).title
         # Bot add date, dd.mm.yy
         add_date = datetime.fromtimestamp(chat_stats[0].last_time).strftime('%d.%m.%y')
         # Today messages
@@ -48,7 +48,7 @@ def group(chat_hash):
         users = []
         user_stats = UserStat.where('cid', cid).order_by('msg_count', 'desc').limit(50).get().all()
         for ustat in user_stats:
-            users.append({'name': User.where('uid', ustat.uid).get()[0].fullname,
+            users.append({'name': User.get(ustat.uid).fullname,
                           'msg_count': ustat.msg_count,
                           'uid': ustat.uid})
 
@@ -82,4 +82,4 @@ def group(chat_hash):
                                entities=entities)
 
     else:
-        return '404'
+        return redirect('/')

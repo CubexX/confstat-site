@@ -46,6 +46,7 @@ body {
 
 .badge {
     float: right;
+    margin-top: 3px;
 }
 
 .icon-about {
@@ -74,6 +75,10 @@ body {
 
     .well-content .col-md-4 {
         border: 0;
+    }
+
+    .users-list {
+        height: auto;
     }
 }
 
