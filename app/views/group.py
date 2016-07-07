@@ -62,13 +62,21 @@ def group(chat_hash):
                     'hashtag': 0,
                     'bot_command': 0,
                     'mention': 0}
-        _entities = Entity.where('cid', cid).get().all()
+        urls = []
+        i = 0
+        _entities = Entity.where('cid', cid).order_by('count', 'desc').get().all()
         for entity in _entities:
             if entity.type == 'voice':
                 entities['audio'] += entity.count
             else:
                 entities[entity.type] += entity.count
             entities['total'] += entity.count
+
+            # Generating urls list
+            if entity.type == 'url' and i < 9:
+                urls.append({'link': entity.title,
+                             'count': entity.count})
+                i += 1
 
         return render_template('group.html',
                                page_title='{} - Confstat'.format(chat_title),
@@ -79,7 +87,8 @@ def group(chat_hash):
                                average_users=average_users,
                                chart=chart,
                                users=users,
-                               entities=entities)
+                               entities=entities,
+                               urls=urls)
 
     else:
         return redirect('/')
