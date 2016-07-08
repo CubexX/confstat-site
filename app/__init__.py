@@ -10,7 +10,7 @@ import json
 with open('config.json', 'r') as file:
     CONFIG = json.loads(file.read())
 
-cache = memcache.Client(['127.0.0.1:11211'], debug=True)
+cache = memcache.Client(CONFIG['cache']['servers'], debug=CONFIG['cache']['debug'])
 
 app = Flask(__name__, static_folder='../static')
 app.config['ORATOR_DATABASES'] = {

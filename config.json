@@ -5,5 +5,11 @@
     "database": "confstat",
     "user": "",
     "password": ""
+  },
+  "cache": {
+    "servers": [
+      "127.0.0.1:11211"
+    ],
+    "debug": true
   }
 }
