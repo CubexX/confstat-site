@@ -7,7 +7,7 @@ from app import db, cache
 class User(db.Model):
     __table__ = 'users'
     __timestamps__ = False
-    __fillable__ = ['uid', 'username', 'fullname']
+    __fillable__ = ['uid', 'username', 'fullname', 'public']
 
     @staticmethod
     def get(uid):
