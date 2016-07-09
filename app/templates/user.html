@@ -1,20 +1,59 @@
 {% extends "base.html" %}
-{% block navbar%}
-<div class="navbar-header">
-    <a class="navbar-brand" href="/">Confstat</a>
-</div>
-
-<div class="navbar-collapse collapse navbar-inverse-collapse">
-    <ul class="nav navbar-nav navbar-right">
-        <li>
-            <a href="http://telegram.me/confstatbot" target="_blank">
-                <i class="fa fa-paper-plane" aria-hidden="true"></i> Add bot to Telegram
-            </a>
-        </li>
-    </ul>
-</div>
+{% block navbar %}
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/">Confstat</a>
+    </div>
 {% endblock %}
 
 {% block content %}
-User
+    {% if user %}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="info-block well">
+                    <div class="well-title"><b>{{ user.username }} (since {{ info.first_act }})</b></div>
+
+                    <div class="well-content">
+                        <div class="info-line">
+                            <i class="fa fa-comments" aria-hidden="true">
+                                <span class="icon-about">Total messages</span>
+                            </i>
+                            <span class="badge">{{ info.total_msg }}</span>
+                        </div>
+                        <!-- /total messages -->
+
+                        <div class="info-line">
+                            <i class="fa fa-comments" aria-hidden="true">
+                                <span class="icon-about">Last activity</span>
+                            </i>
+                            <span class="badge">{{ info.last_act }}</span>
+                        </div>
+                        <!-- /last activty -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="charts">
+                    <div class="chart well">
+                        <div class="well-title">
+                            <b>Groups</b>
+                        </div>
+                        <div class="well-content">
+                            <div class="row users-list">
+                                {% for group in info.groups %}
+                                    <div class="user-line">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        {{ group.title }}
+                                        <div class="badge">{{ group.msg_count }}</div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-danger"><b>Error!</b> This account is private.</div>
+    {% endif  %}
 {% endblock %}

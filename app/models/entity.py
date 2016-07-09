@@ -6,4 +6,5 @@ from app import db
 
 class Entity(db.Model):
     __table__ = 'entities'
+    __timestamps__ = False
     __fillable__ = ['cid', 'type', 'title', 'count']
