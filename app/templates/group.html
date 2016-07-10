@@ -47,7 +47,11 @@
                         {% for user in users %}
                         <div class="user-line">
                             <i class="fa fa-user" aria-hidden="true"></i>
+                            {% if user.public %}
                             <a href="/user/{{ user.uid }}" target="_blank">{{ user.name }}</a>
+                            {% else %}
+                            {{ user.name }}
+                            {% endif %}
                             <div class="badge">{{ user.msg_count }}</div>
                         </div>
                         {% endfor %}

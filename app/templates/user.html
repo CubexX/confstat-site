@@ -10,7 +10,12 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="info-block well">
-                    <div class="well-title"><b>{{ user.username }} (since {{ info.first_act }})</b></div>
+                    <div class="well-title"><b>
+                        {% if user.username %}
+                            <a href="http://telegram.me/{{ user.username }}" target="_blank">{{ user.username }}</a>
+                        {% else %}
+                            {{ user.fullname }}
+                        {% endif %} (since {{ info.first_act }})</b></div>
 
                     <div class="well-content">
                         <div class="info-line">
