@@ -48,9 +48,11 @@ def group(chat_hash):
         users = []
         user_stats = UserStat.where('cid', cid).order_by('msg_count', 'desc').limit(50).get().all()
         for ustat in user_stats:
-            users.append({'name': User.get(ustat.uid).fullname,
+            user = User.get(ustat.uid)
+            users.append({'name': user.fullname,
                           'msg_count': ustat.msg_count,
-                          'uid': ustat.uid})
+                          'uid': ustat.uid,
+                          'public': user.public})
 
         # Generating entities
         entities = {'total': 0,
