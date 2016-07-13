@@ -58,9 +58,7 @@
                 </div>
             </div>
         </div>
-    {% elif not token %}
-        <div class="alert alert-danger"><b>Error!</b> This account is private.</div>
     {% else %}
-        <div class="alert alert-danger"><b>Error!</b> Wrong token.</div>
+        <div class="alert alert-danger"><b>Error!</b> This account is private.</div>
     {% endif  %}
 {% endblock %}
