@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 __author__ = 'CubexX'
 
-from flask import render_template, redirect
+from flask import render_template, redirect, request
 from app.models import User, UserStat, Chat
 from datetime import datetime
-from app import app
+from app import app, cache
 
 
 @app.route('/user/<uid>')
-def user_view(uid):
+@app.route('/user/<uid>/<token>')
+def user_view(uid, token=None):
     user = User.where('uid', uid).get().first()
 
     if user:
-        if user.public:
+        if user.public or token == cache.get('user_token_{}'.format(uid)):
             # Get user statistics
             stats = UserStat.where('uid', uid).get().all()
             info = {'first_act': 0,
@@ -45,6 +46,7 @@ def user_view(uid):
         return render_template('user.html',
                                page_title=page_title,
                                user=user,
-                               info=info)
+                               info=info,
+                               token=token)
     else:
         redirect('/')

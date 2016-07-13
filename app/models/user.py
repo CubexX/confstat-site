@@ -11,14 +11,14 @@ class User(db.Model):
 
     @staticmethod
     def get(uid):
-        cached = cache.get('user_{}'.format(uid))
+        cached = cache.get('web_user_{}'.format(uid))
 
         if cached:
             return cached
         else:
             user = User.where('uid', uid).get()[0]
             if user:
-                cache.set('user_{}'.format(uid), user)
+                cache.set('web_user_{}'.format(uid), user)
                 return user
             else:
                 return False

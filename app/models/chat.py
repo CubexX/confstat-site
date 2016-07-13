@@ -11,14 +11,14 @@ class Chat(db.Model):
 
     @staticmethod
     def get(cid):
-        cached = cache.get('chat_{}'.format(cid))
+        cached = cache.get('web_chat_{}'.format(cid))
 
         if cached:
             return cached
         else:
             chat = Chat.where('cid', cid).get()[0]
             if chat:
-                cache.set('chat_{}'.format(cid), chat)
+                cache.set('web_chat_{}'.format(cid), chat)
                 return chat
             else:
                 return False
