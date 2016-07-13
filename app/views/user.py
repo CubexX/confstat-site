@@ -9,7 +9,7 @@ from app import app, cache
 
 @app.route('/user/<uid>')
 @app.route('/user/<uid>/<token>')
-def user_view(uid, token=None):
+def user_view(uid, token=True):
     user = User.where('uid', uid).get().first()
 
     if user:
