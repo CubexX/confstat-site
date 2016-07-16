@@ -1,183 +1,194 @@
 {% extends "base.html" %}
-{% block navbar%}
-<div class="navbar-header">
-    <a class="navbar-brand" href="/">{% if chat_title %}{{ chat_title }}{% else %}Confstat{% endif %}</a>
-</div>
+{% block navbar %}
+    <div class="navbar-header">
+        <a class="navbar-brand" href="/">{% if chat_title %}{{ chat_title }}{% else %}Confstat{% endif %}</a>
+    </div>
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-4">
-        <div class="info-block well">
-            <div class="well-title"><b>General info (since {{ add_date }})</b></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="info-block well">
+                <div class="well-title"><b>General info (since {{ add_date }})</b></div>
 
-            <div class="well-content">
-                <div class="info-line">
-                    <i class="fa fa-comments" aria-hidden="true">
-                        <span class="icon-about">Total messages</span>
-                    </i>
-                    <span class="badge">{{ chart['msg_values'][-1] }}</span>
-                </div>
+                <div class="well-content">
+                    <div class="info-line">
+                        <i class="fa fa-comments" aria-hidden="true">
+                            <span class="icon-about">Total messages</span>
+                        </i>
+                        <span class="badge">{{ chart['msg_values'][-1] }}</span>
+                    </div>
+                    <!-- /total messages -->
 
-                <div class="info-line">
-                    <i class="fa fa-user-plus" aria-hidden="true">
-                        <span class="icon-about">Today active users</span>
-                    </i>
-                    <span class="badge">{{ chart['users_values'][-1] }}</span>
-                </div>
+                    <div class="info-line">
+                        <i class="fa fa-user-plus" aria-hidden="true">
+                            <span class="icon-about">Today active users</span>
+                        </i>
+                        <span class="badge">{{ chart['users_values'][-1] }}</span>
+                    </div>
+                    <!-- /active users -->
 
-                <div class="info-line">
-                    <i class="fa fa-users" aria-hidden="true">
-                        <span class="icon-about">Average number of users</span>
-                    </i>
-                    <span class="badge">~{{ average_users }}</span>
+                    <div class="info-line">
+                        <i class="fa fa-users" aria-hidden="true">
+                            <span class="icon-about">Average number of users</span>
+                        </i>
+                        <span class="badge">~{{ average_users }}</span>
+                    </div>
+                    <!-- /average users -->
+
+                    <div class="info-line">
+                        <i class="fa fa-clock-o" aria-hidden="true">
+                            <span class="icon-about">Last update</span>
+                        </i>
+                        <span class="badge">{{ last_update }}</span>
+                    </div>
+                    <!-- /last update -->
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-8">
-        <div class="charts">
-            <div class="chart well">
-                <div class="well-title">
-                    <b>Users</b>
-                </div>
-                <div class="well-content">
-                    <div class="row users-list">
-                        {% for user in users %}
-                        <div class="user-line">
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                            {% if user.public %}
-                            <a href="/user/{{ user.uid }}" target="_blank">{{ user.name }}</a>
-                            {% else %}
-                            {{ user.name }}
-                            {% endif %}
-                            <div class="badge">{{ user.msg_count }}</div>
+        <div class="col-md-8">
+            <div class="charts">
+                <div class="chart well">
+                    <div class="well-title">
+                        <b>Users</b>
+                    </div>
+                    <div class="well-content">
+                        <div class="row users-list">
+                            {% for user in users %}
+                                <div class="user-line">
+                                    <i class="fa fa-user" aria-hidden="true"></i>
+                                    {% if user.public %}
+                                        <a href="/user/{{ user.uid }}" target="_blank">{{ user.name }}</a>
+                                    {% else %}
+                                        {{ user.name }}
+                                    {% endif %}
+                                    <div class="badge">{{ user.msg_count }}</div>
+                                </div>
+                            {% endfor %}
                         </div>
-                        {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="info-block well">
-            <div class="well-title"><b>Entities</b></div>
-            <div class="well-content">
-                <div class="info-line">
-                    <i class="fa fa-paperclip" aria-hidden="true"></i>
-                    <span class="icon-about">Total</span>
-                    <span class="badge">{{ entities.total }}</span>
-                </div>
-                <!-- /total media -->
-
-                <div class="info-line">
-                    <i class="fa fa-picture-o" aria-hidden="true"></i>
-                    <span class="icon-about">Photos</span>
-                    <span class="badge">{{ entities.photo }}</span>
-                </div>
-                <!-- /photos media -->
-
-                <div class="info-line">
-                    <i class="fa fa-music" aria-hidden="true"></i>
-                    <span class="icon-about">Audio</span>
-                    <span class="badge">{{ entities.audio }}</span>
-                </div>
-                <!-- /audio media -->
-
-                <div class="info-line">
-                    <i class="fa fa-video-camera" aria-hidden="true"></i>
-                    <span class="icon-about">Videos</span>
-                    <span class="badge">{{ entities.video }}</span>
-                </div>
-                <!-- /videos media -->
-
-                <div class="info-line">
-                    <i class="fa fa-file" aria-hidden="true"></i>
-                    <span class="icon-about">Files</span>
-                    <span class="badge">{{ entities.document }}</span>
-                </div>
-                <!-- /files media -->
-
-                <div class="info-line">
-                    <i class="fa fa-link" aria-hidden="true"></i>
-                    <span class="icon-about">Links</span>
-                    <span class="badge">{{ entities.url }}</span>
-                </div>
-                <!-- /links media -->
-
-                <div class="info-line">
-                    <i class="fa fa-hashtag" aria-hidden="true"></i>
-                    <span class="icon-about">Hashtags</span>
-                    <span class="badge">{{ entities.hashtag }}</span>
-                </div>
-                <!-- /hashtags media -->
-
-                <div class="info-line">
-                    <i class="fa fa-code" aria-hidden="true"></i>
-                    <span class="icon-about">Commands</span>
-                    <span class="badge">{{ entities.bot_command }}</span>
-                </div>
-                <!-- /commands media -->
-
-                <div class="info-line">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                    <span class="icon-about">Mentions</span>
-                    <span class="badge">{{ entities.mention }}</span>
-                </div>
-                <!-- /mentions media -->
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-8">
-        <div class="charts">
-            <div class="chart well">
-                <div class="well-title">
-                    <b>Messages</b>
-                </div>
+        <div class="col-md-4">
+            <div class="info-block well">
+                <div class="well-title"><b>Entities</b></div>
                 <div class="well-content">
-                    <canvas id="messages_chart"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
+                    <div class="info-line">
+                        <i class="fa fa-paperclip" aria-hidden="true"></i>
+                        <span class="icon-about">Total</span>
+                        <span class="badge">{{ entities.total }}</span>
+                    </div>
+                    <!-- /total media -->
 
-    <div class="col-md-4">
-        <div class="info-block well">
-            <div class="well-title"><b>Popular links</b></div>
-            <div class="well-content">
-                {% for url in urls %}
+                    <div class="info-line">
+                        <i class="fa fa-picture-o" aria-hidden="true"></i>
+                        <span class="icon-about">Photos</span>
+                        <span class="badge">{{ entities.photo }}</span>
+                    </div>
+                    <!-- /photos media -->
+
+                    <div class="info-line">
+                        <i class="fa fa-music" aria-hidden="true"></i>
+                        <span class="icon-about">Audio</span>
+                        <span class="badge">{{ entities.audio }}</span>
+                    </div>
+                    <!-- /audio media -->
+
+                    <div class="info-line">
+                        <i class="fa fa-video-camera" aria-hidden="true"></i>
+                        <span class="icon-about">Videos</span>
+                        <span class="badge">{{ entities.video }}</span>
+                    </div>
+                    <!-- /videos media -->
+
+                    <div class="info-line">
+                        <i class="fa fa-file" aria-hidden="true"></i>
+                        <span class="icon-about">Files</span>
+                        <span class="badge">{{ entities.document }}</span>
+                    </div>
+                    <!-- /files media -->
+
                     <div class="info-line">
                         <i class="fa fa-link" aria-hidden="true"></i>
-                        <span class="icon-about">{{ url.link }}</span>
-                        <span class="badge">{{ url.count }}</span>
+                        <span class="icon-about">Links</span>
+                        <span class="badge">{{ entities.url }}</span>
                     </div>
-                {% endfor %}
+                    <!-- /links media -->
+
+                    <div class="info-line">
+                        <i class="fa fa-hashtag" aria-hidden="true"></i>
+                        <span class="icon-about">Hashtags</span>
+                        <span class="badge">{{ entities.hashtag }}</span>
+                    </div>
+                    <!-- /hashtags media -->
+
+                    <div class="info-line">
+                        <i class="fa fa-code" aria-hidden="true"></i>
+                        <span class="icon-about">Commands</span>
+                        <span class="badge">{{ entities.bot_command }}</span>
+                    </div>
+                    <!-- /commands media -->
+
+                    <div class="info-line">
+                        <i class="fa fa-user" aria-hidden="true"></i>
+                        <span class="icon-about">Mentions</span>
+                        <span class="badge">{{ entities.mention }}</span>
+                    </div>
+                    <!-- /mentions media -->
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-8">
-        <div class="charts">
-            <div class="chart well">
-                <div class="well-title">
-                    <b>Active users</b>
+        <div class="col-md-8">
+            <div class="charts">
+                <div class="chart well">
+                    <div class="well-title">
+                        <b>Messages</b>
+                    </div>
+                    <div class="well-content">
+                        <canvas id="messages_chart"></canvas>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="info-block well">
+                <div class="well-title"><b>Popular links</b></div>
                 <div class="well-content">
-                    <canvas id="users_chart"></canvas>
+                    {% for url in urls %}
+                        <div class="info-line">
+                            <i class="fa fa-link" aria-hidden="true"></i>
+                            <span class="icon-about">{{ url.link }}</span>
+                            <span class="badge">{{ url.count }}</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="charts">
+                <div class="chart well">
+                    <div class="well-title">
+                        <b>Active users</b>
+                    </div>
+                    <div class="well-content">
+                        <canvas id="users_chart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-var msg_data = getData('Messages', {{ chart['labels']|safe }}, {{ chart['msg_values']|safe }});
-var users_data = getData('Active users', {{ chart['labels']|safe }}, {{ chart['users_values']|safe }});
+    <script>
+        var msg_data = getData('Messages', {{ chart['labels']|safe }}, {{ chart['msg_values']|safe }});
+        var users_data = getData('Active users', {{ chart['labels']|safe }}, {{ chart['users_values']|safe }});
 
-createLineChart('messages_chart', msg_data, 'Messages');
-createLineChart('users_chart', users_data, 'Active users');
-</script>
+        createLineChart('messages_chart', msg_data, 'Messages');
+        createLineChart('users_chart', users_data, 'Active users');
+    </script>
 {% endblock %}
