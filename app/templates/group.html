@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 {% block navbar %}
     <div class="navbar-header">
-        <a class="navbar-brand" href="/">{% if chat_title %}{{ chat_title }}{% else %}Confstat{% endif %}</a>
+        {% if public_link %}
+            <a class="navbar-brand" href="http://telegram.me/{{ public_link }}" target="_blank">
+                {% if chat_title %}{{ chat_title }}{% else %}Confstat{% endif %}
+            </a>
+        {% else %}
+            <a class="navbar-brand" href="/">{% if chat_title %}{{ chat_title }}{% else %}Confstat{% endif %}</a>
+        {% endif %}
     </div>
 {% endblock %}
 
