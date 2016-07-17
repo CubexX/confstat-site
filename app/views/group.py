@@ -13,10 +13,11 @@ def group(chat_hash):
     chat_stats = ChatStat.where('hash', chat_hash).limit(21).get()
 
     if chat_stats:
-        # Chat id
+        # Chat
         cid = chat_stats[0].cid
+        chat = Chat.get(cid)
         # Chat title
-        chat_title = Chat.get(cid).title
+        chat_title = chat.title
         # Bot add date, dd.mm.yy
         add_date = datetime.fromtimestamp(chat_stats[0].last_time).strftime('%d.%m.%y')
         # Today messages
@@ -25,6 +26,8 @@ def group(chat_hash):
         active_users = chat_stats[-1].users_count
         # Last update
         last_update = datetime.fromtimestamp(chat_stats[-1].last_time).strftime('%d.%m.%y (%H:%M)')
+        # Link for public chats
+        public_link = chat.public_link
 
         average_users = 0
         chart = {'labels': [], 'msg_values': [], 'users_values': []}
@@ -93,7 +96,8 @@ def group(chat_hash):
                                users=users,
                                entities=entities,
                                urls=urls,
-                               last_update=last_update)
+                               last_update=last_update,
+                               public_link=public_link)
 
     else:
         return redirect('/')
