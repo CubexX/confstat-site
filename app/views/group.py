@@ -38,7 +38,7 @@ def group(chat_hash):
             average_users += chat.users_count
 
             # Dates, dd/mm
-            d = datetime.fromtimestamp(chat.last_time).strftime('%d/%m')
+            d = datetime.fromtimestamp(chat.last_time).strftime('%d')
 
             chart['labels'].append(str(d))
             chart['msg_values'].append(chat.msg_count)

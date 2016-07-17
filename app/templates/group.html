@@ -15,7 +15,10 @@
     <div class="row">
         <div class="col-md-4">
             <div class="info-block well">
-                <div class="well-title"><b>General info (since {{ add_date }})</b></div>
+                <div class="well-title">
+                    <b>General info (since {{ add_date }})</b>
+                    <span class="badge badge-info">UTC +3</span>
+                </div>
 
                 <div class="well-content">
                     <div class="info-line">
@@ -152,7 +155,7 @@
             <div class="charts">
                 <div class="chart well">
                     <div class="well-title">
-                        <b>Messages</b>
+                        <b>Messages <span class="badge badge-info">last 21 days</span></b>
                     </div>
                     <div class="well-content">
                         <canvas id="messages_chart"></canvas>
@@ -180,7 +183,7 @@
             <div class="charts">
                 <div class="chart well">
                     <div class="well-title">
-                        <b>Active users</b>
+                        <b>Active users <span class="badge badge-info">last 21 days</span></b>
                     </div>
                     <div class="well-content">
                         <canvas id="users_chart"></canvas>
