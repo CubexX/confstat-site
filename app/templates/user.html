@@ -15,7 +15,9 @@
                             <a href="http://telegram.me/{{ user.username }}" target="_blank">{{ user.username }}</a>
                         {% else %}
                             {{ user.fullname }}
-                        {% endif %} (since {{ info.first_act }})</b></div>
+                        {% endif %} (since {{ info.first_act }})</b>
+                        <span class="badge badge-info">UTC +3</span>
+                    </div>
 
                     <div class="well-content">
                         <div class="info-line">

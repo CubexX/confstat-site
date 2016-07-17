@@ -46,7 +46,12 @@ body {
 
 .badge {
     float: right;
-    margin-top: 3px;
+    margin-top: 4px;
+}
+
+.badge-info {
+    background-color: #2091eb;
+    margin-top: 1px;
 }
 
 .icon-about {
