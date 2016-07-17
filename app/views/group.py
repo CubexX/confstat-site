@@ -23,6 +23,8 @@ def group(chat_hash):
         msg_count = chat_stats[-1].msg_count
         # Today active users
         active_users = chat_stats[-1].users_count
+        # Last update
+        last_update = datetime.fromtimestamp(chat_stats[-1].last_time).strftime('%d.%m.%y (%H:%M)')
 
         average_users = 0
         chart = {'labels': [], 'msg_values': [], 'users_values': []}
@@ -90,7 +92,8 @@ def group(chat_hash):
                                chart=chart,
                                users=users,
                                entities=entities,
-                               urls=urls)
+                               urls=urls,
+                               last_update=last_update)
 
     else:
         return redirect('/')
