@@ -11,17 +11,16 @@ from app.models import Chat, Entity, User, UserStat
 
 @app.route('/group/<chat_hash>')
 def group(chat_hash):
-    # Get chat statistics
-    chat_stats = db.select('(SELECT * FROM chat_stats '
-                           'WHERE hash =  "{}" '
-                           'ORDER BY id DESC LIMIT 21) '
-                           'ORDER BY id ASC'.format(chat_hash))
+    chat = Chat.where('hash', chat_hash).first()
 
-    if chat_stats:
-        # Chat
-        cid = chat_stats[0].cid
-        chat = Chat.get(cid)
+    if chat:
+        cid = chat.cid
 
+        # Get chat statistics
+        chat_stats = db.select('(SELECT * FROM chat_stats '
+                               'WHERE cid =  "{}" '
+                               'ORDER BY id DESC LIMIT 21) '
+                               'ORDER BY id ASC'.format(cid))
         # Chat title
         chat_title = chat.title
 

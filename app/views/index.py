@@ -4,7 +4,7 @@ __author__ = 'CubexX'
 from flask import render_template
 
 from app import app, cache
-from app.models import Chat, ChatStat, User, UserStat
+from app.models import Chat, User, UserStat
 
 
 @app.route('/')
