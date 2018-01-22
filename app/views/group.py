@@ -31,6 +31,9 @@ def group(chat_hash):
         # Today messages
         msg_count = chat_stats[-1].msg_count
 
+        # All number of users
+        all_users = UserStat.where('cid', cid).count()
+
         # Today active users
         active_users = chat_stats[-1].users_count
 
@@ -101,6 +104,7 @@ def group(chat_hash):
                                chat_title=chat_title,
                                add_date=add_date,
                                msg_count=msg_count,
+                               all_users=all_users,
                                active_users=active_users,
                                average_users=average_users,
                                chart=chart,

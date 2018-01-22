@@ -27,7 +27,13 @@
                         </i>
                         <span class="badge">{{ chart['msg_values'][-1] }}</span>
                     </div>
-                    <!-- /total messages -->
+
+                    <div class="info-line">
+                        <i class="fa fa-users" aria-hidden="true">
+                            <span class="icon-about">Total users</span>
+                        </i>
+                        <span class="badge">{{ all_users }}</span>
+                    </div>
 
                     <div class="info-line">
                         <i class="fa fa-user-plus" aria-hidden="true">
@@ -35,15 +41,13 @@
                         </i>
                         <span class="badge">{{ chart['users_values'][-1] }}</span>
                     </div>
-                    <!-- /active users -->
 
                     <div class="info-line">
-                        <i class="fa fa-users" aria-hidden="true">
+                        <i class="fa fa-bar-chart" aria-hidden="true">
                             <span class="icon-about">Average number of users</span>
                         </i>
                         <span class="badge">~{{ average_users }}</span>
                     </div>
-                    <!-- /average users -->
 
                     <div class="info-line">
                         <i class="fa fa-clock-o" aria-hidden="true">
@@ -51,7 +55,6 @@
                         </i>
                         <span class="badge">{{ last_update }}</span>
                     </div>
-                    <!-- /last update -->
                 </div>
             </div>
         </div>
