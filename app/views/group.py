@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 __author__ = 'CubexX'
 
-from app.models import Chat, User, Entity, UserStat
-from flask import render_template, redirect
 from datetime import datetime
+
+from flask import redirect, render_template
+
 from app import app, db
+from app.models import Chat, Entity, User, UserStat
 
 
 @app.route('/group/<chat_hash>')

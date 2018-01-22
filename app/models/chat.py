@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 __author__ = 'CubexX'
 
-from app import db, cache
+from app import cache, db
 
 
 class Chat(db.Model):

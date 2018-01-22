@@ -1,20 +1,27 @@
 # -*- coding: utf-8 -*-
 __author__ = 'CubexX'
 
-from app import app, cache
-from app.models import User, Chat, ChatStat
 from flask import render_template
+
+from app import app, cache
+from app.models import Chat, ChatStat, User
 
 
 @app.route('/')
 def index():
     stats = cache.get('web_stats')
+    msgs = 0
+
+    # TODO: fix this by raw sql
+    for c in Chat.all():
+        res = ChatStat.where('cid', c.cid).order_by('id', 'desc').limit(1).first()
+        msgs += res.msg_count
 
     if not stats:
         stats = {
             'users_count': User.all().count(),
             'chats_count': Chat.all().count(),
-            'messages_count': sum(chat.msg_count for chat in ChatStat.all())
+            'messages_count': msgs
         }
         cache.set('web_stats', stats, 300)
 
