@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 __author__ = 'CubexX'
 
-from flask import render_template, redirect, request
-from app.models import User, UserStat, Chat
 from datetime import datetime
+
+from flask import redirect, render_template, request
+
 from app import app, cache
+from app.models import Chat, User, UserStat
 
 
 @app.route('/user/<uid>')

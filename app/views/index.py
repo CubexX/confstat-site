@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 __author__ = 'CubexX'
 
-from app import app, cache
-from app.models import User, Chat, ChatStat
 from flask import render_template
+
+from app import app, cache
+from app.models import Chat, User, UserStat
 
 
 @app.route('/')
@@ -14,7 +15,7 @@ def index():
         stats = {
             'users_count': User.all().count(),
             'chats_count': Chat.all().count(),
-            'messages_count': sum(chat.msg_count for chat in ChatStat.all())
+            'messages_count': sum(u.msg_count for u in UserStat.all())
         }
         cache.set('web_stats', stats, 300)
 
