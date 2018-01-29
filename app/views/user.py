@@ -36,7 +36,7 @@ def user_view(uid, token=True):
                         info['last_act'] = stat.last_activity
 
                 # Generating date from timestamps
-                info['first_act'] = datetime.fromtimestamp(stats[-1].last_activity).strftime('%d.%m.%y')
+                info['first_act'] = datetime.fromtimestamp(stats[0].last_activity).strftime('%d.%m.%y')
                 info['last_act'] = datetime.fromtimestamp(info['last_act']).strftime('%d.%m.%y (%H:%M)')
 
             page_title = '{} - Confstat'.format(user.fullname)

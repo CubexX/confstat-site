@@ -7,7 +7,7 @@ from app import cache, db
 class Chat(db.Model):
     __table__ = 'chats'
     __timestamps__ = False
-    __fillable__ = ['cid', 'title', 'public_link', 'add_time']
+    __fillable__ = ['cid', 'title', 'public_link', 'add_time', 'hash']
 
     @staticmethod
     def get(cid):
