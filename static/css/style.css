@@ -55,7 +55,15 @@ body {
 }
 
 .icon-about {
+    font-family: 'Roboto', sans-serif;
+}
 
+.info-line i {
+    width: 23px;
+}
+
+.user-line i {
+    width: 20px;
 }
 
 .users-list {
