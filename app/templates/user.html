@@ -16,22 +16,20 @@
                         {% else %}
                             {{ user.fullname }}
                         {% endif %} (since {{ info.first_act }})</b>
-                        <span class="badge badge-info">UTC +3</span>
+                        <span class="badge">UTC +3</span>
                     </div>
 
                     <div class="well-content">
                         <div class="info-line">
-                            <i class="fa fa-comments" aria-hidden="true">
-                                <span class="icon-about">Total messages</span>
-                            </i>
+                            <i class="fa fa-comments" aria-hidden="true"></i>
+                            <span class="icon-about">Total messages</span>
                             <span class="badge">{{ info.total_msg }}</span>
                         </div>
                         <!-- /total messages -->
 
                         <div class="info-line">
-                            <i class="fa fa-clock-o" aria-hidden="true">
-                                <span class="icon-about">Last activity</span>
-                            </i>
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                            <span class="icon-about">Last activity</span>
                             <span class="badge">{{ info.last_act }}</span>
                         </div>
                         <!-- /last activty -->

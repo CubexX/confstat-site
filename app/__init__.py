@@ -23,10 +23,11 @@ app.config['ORATOR_DATABASES'] = {
     }
 }
 app.wsgi_app = ProxyFix(app.wsgi_app)
+app.secret_key = CONFIG['salt']
 
 db = Orator(app)
 
-from app.views import index, group, user
+from app.views import index, group, user, admin
 
 if __name__ == '__main__':
     app.run()
