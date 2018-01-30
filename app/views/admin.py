@@ -2,21 +2,32 @@
 __author__ = 'CubexX'
 
 
+import json
+import hashlib
+
 from datetime import datetime
 
-from Crypto.Hash import MD5
 from flask import redirect, render_template, request, session
 
 from app import CONFIG, app, cache
 from app.models import Chat, ChatStat, Entity, User, UserStat
 
 
+def login_required(func):
+    def wrapper(*args, **kwargs):
+        if not session or session['hash'] != generate_hash(CONFIG['password']):
+            return redirect('/admin/login')
+        else:
+            return func(*args, **kwargs)
+
+    wrapper.__name__ = func.__name__
+    return wrapper
+
+
 @app.route('/admin')
 @app.route('/admin/')
+@login_required
 def admin():
-    if not session or session['hash'] != generate_hash(CONFIG['password']):
-        return redirect('/admin/login')
-
     today_chats = cache.get('today_chats')
     today_messages = cache.get('today_messages')
 
@@ -55,16 +66,54 @@ def exit_admin():
     return redirect('/')
 
 
+@app.route('/admin/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    with open('config.json', 'r') as jsonFile:
+        data = json.load(jsonFile)
+
+    if request.method == 'POST':
+        form = request.form
+
+        if form['db_driver']:
+            data['db']['driver'] = form['db_driver']
+
+        if form['db_host']:
+            data['db']['host'] = form['db_host']
+
+        if form['db_database']:
+            data['db']['database'] = form['db_database']
+
+        if form['db_user']:
+            data['db']['user'] = form['db_user']
+
+        if form['db_password']:
+            data['db']['password'] = form['db_password']
+
+        if form['cache_server']:
+            data['cache']['servers'][0] = form['cache_server']
+
+        if form['cache_debug']:
+            data['cache']['debug'] = bool(int(form['cache_debug']))
+
+        if form['admin_password']:
+            data['password'] = form['admin_password']
+
+        if form['salt']:
+            data['salt'] = form['salt']
+
+        with open("config.json", "w") as jsonFile:
+            json.dump(data, jsonFile)
+
+    return render_template('admin/settings.html', data=data)
+
+
 def format_time(ts):
-    t = datetime.fromtimestamp(ts).strftime('%H:%M, %d.%m.%y')
-    return t
+    return datetime.fromtimestamp(ts).strftime('%H:%M, %d.%m.%y')
 
 
 def generate_hash(text):
-    salt = str(CONFIG['salt']).encode('utf-8')
     text = str(text).encode('utf-8')
+    salt = str(CONFIG['salt']).encode('utf-8')
 
-    h = MD5.new(text)
-    h.update(salt)
-
-    return h.hexdigest()
+    return hashlib.md5(text + salt).hexdigest()
