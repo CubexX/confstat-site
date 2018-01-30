@@ -20,6 +20,8 @@ Edit config.json:
     "user": "",
     "password": ""
   },
+"password": "admin_panel_password",
+"salt": "your_secret_salt"
 ```
 And run with gunicorn:
 ```bash
