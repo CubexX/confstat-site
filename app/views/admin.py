@@ -2,9 +2,8 @@
 __author__ = 'CubexX'
 
 
-import json
 import hashlib
-
+import json
 from datetime import datetime
 
 from flask import redirect, render_template, request, session
@@ -45,7 +44,8 @@ def admin():
                            stats=stats,
                            entities=Entity.generate_list()[0],
                            Chat=Chat,
-                           format_time=format_time)
+                           format_time=format_time,
+                           logs=get_logs())
 
 
 @app.route('/admin/login', methods=['GET', 'POST'])
@@ -105,7 +105,9 @@ def settings():
         with open("config.json", "w") as jsonFile:
             json.dump(data, jsonFile)
 
-    return render_template('admin/settings.html', data=data)
+    return render_template('admin/settings.html',
+                           data=data,
+                           logs=get_logs())
 
 
 def format_time(ts):
@@ -117,3 +119,11 @@ def generate_hash(text):
     salt = str(CONFIG['salt']).encode('utf-8')
 
     return hashlib.md5(text + salt).hexdigest()
+
+
+def get_logs():
+    with open('../confstat-bot/bot.log', 'r') as log:
+        log = log.read()
+        log_list = [line.split(' - ') for line in reversed(log.split('\n')) if "Timed out" not in line]
+
+        return log_list[:10]
