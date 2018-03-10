@@ -6,7 +6,7 @@ from datetime import datetime
 from flask import redirect, render_template
 
 from app import app, db
-from app.models import Chat, Entity, User, UserStat
+from app.models import Chat, Entity, Message, User, UserStat
 
 
 @app.route('/group/<chat_hash>')
@@ -27,14 +27,14 @@ def group(chat_hash):
         # Bot add date, dd.mm.yy
         add_date = datetime.fromtimestamp(chat.add_time).strftime('%d.%m.%y')
 
-        # Today messages
-        msg_count = chat_stats[-1].msg_count
+        # Today messages NOT USED YET
+        today_messages = Message.today_chat_count(cid)
 
         # All number of users
-        all_users = UserStat.where('cid', cid).count()
+        all_users = Chat.all_chat_users(cid)
 
         # Today active users
-        active_users = chat_stats[-1].users_count
+        active_users = Chat.today_chat_users(cid)
 
         # Last update
         last_update = datetime.fromtimestamp(chat_stats[-1].last_time).strftime('%d.%m.%y (%H:%M)')
@@ -79,7 +79,7 @@ def group(chat_hash):
                                page_title='{} - Confstat'.format(chat_title),
                                chat_title=chat_title,
                                add_date=add_date,
-                               msg_count=msg_count,
+                               today_messages=today_messages,
                                all_users=all_users,
                                active_users=active_users,
                                average_users=average_users,

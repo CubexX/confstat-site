@@ -14,12 +14,12 @@
             <div class="card-box">
                 <h4 class="header-title m-t-0 m-b-30">Users</h4>
                 <div class="widget-detail-1">
-                    <h2 class="p-t-10 m-b-0">{{ stats['all_users'] }}</h2>
+                    <h2 class="p-t-10 m-b-0">{{ stats['all_active_users'] }}</h2>
                     <p class="text-muted">All users count</p>
                 </div>
                 <div class="widget-detail-1">
-                    <h2 class="p-t-10 m-b-0">{{ stats['today_users'] }}</h2>
-                    <p class="text-muted">Active users count for 24 hours</p>
+                    <h2 class="p-t-10 m-b-0">{{ stats['today_active_users'] }}</h2>
+                    <p class="text-muted">Active users today</p>
                 </div>
             </div>
         </div><!-- end col -->
@@ -29,11 +29,11 @@
                 <h4 class="header-title m-t-0 m-b-30">Chats</h4>
                 <div class="widget-detail-1">
                     <h2 class="p-t-10 m-b-0">{{ stats['all_chats'] }}</h2>
-                    <p class="text-muted">All groups count</p>
+                    <p class="text-muted">All chats count</p>
                 </div>
                 <div class="widget-detail-1">
                     <h2 class="p-t-10 m-b-0">{{ stats['today_chats'] }}</h2>
-                    <p class="text-muted">New groups count for 24 hours</p>
+                    <p class="text-muted">New chats today</p>
                 </div>
             </div>
         </div><!-- end col -->
@@ -67,12 +67,12 @@
                             <tr>
                                 <td><i class="fa fa-comments" aria-hidden="true"></i>
                                     <span class="icon-about">
-                                                <a href="/group/{{ Chat.get(chat.cid).hash }}" target="_blank">
-                                                    {{ Chat.get(chat.cid).title }}
+                                                <a href="/group/{{ chat.hash }}" target="_blank">
+                                                    {{ chat.title }}
                                                 </a> ({{ chat.msg_count }} messages)
                                             </span>
                                 </td>
-                                <td>{{ format_time(chat.last_time) }}</td>
+                                <td>{{ format_time(chat.last_date) }}</td>
                             </tr>
                         {% endfor %}
                         </tbody>

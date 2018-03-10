@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'CubexX'
 
-import calendar
 from datetime import datetime
 
 from app import cache, db
@@ -26,26 +25,15 @@ class User(db.Model):
             else:
                 return False
 
+    """ ADMIN PANEL """
+
+    # Today active users at all
     @staticmethod
-    def get_today():
+    def today_all_active_users():
         t = datetime.today()
-        today = round(datetime(t.year, t.month, t.day, 0).timestamp())
+        today = int(datetime(t.year, t.month, t.day, 0).timestamp())
 
-        # First day of month
-        if t.day == 1:
-            yesterday = round(datetime(t.year, t.month - 1, calendar.monthrange(t.year, t.month - 1)[1], 0).timestamp())
+        return len(db.select('SELECT DISTINCT uid FROM messages '
+                             'WHERE date >= {}'.format(today)))
 
-        # New year
-        elif t.day == 1 and t.month == 1:
-            yesterday = round(datetime(t.year - 1, 12, 31, 0).timestamp())
-
-        else:
-            yesterday = round(datetime(t.year, t.month, t.day - 1, 0).timestamp())
-
-        today_users = db.select('SELECT COUNT(*) AS count FROM '
-                                '(SELECT DISTINCT cid FROM user_stats '
-                                'WHERE last_activity > {} '
-                                'AND last_activity < {}) '
-                                'user_stats'.format(yesterday, today))
-
-        return today_users[0]['count']
+    """ /ADMIN PANEL """

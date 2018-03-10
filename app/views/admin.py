@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
 __author__ = 'CubexX'
 
-
 import hashlib
 import json
 from datetime import datetime
 
 from flask import redirect, render_template, request, session
 
-from app import CONFIG, app, cache
-from app.models import Chat, ChatStat, Entity, User, UserStat
+from app import CONFIG, app
+from app.models import Chat, Entity, Message, User, UserStat
 
 
 def login_required(func):
@@ -26,30 +25,23 @@ def login_required(func):
 @app.route('/admin')
 @app.route('/admin/')
 @login_required
-def admin():
-    today_chats = cache.get('today_chats')
-    today_messages = cache.get('today_messages')
-
-    last_chats = ChatStat.order_by('last_time', 'desc').limit(9).get()
-
-    stats = {'all_users': User.count(),
-             'today_users': User.get_today(),
+def admin_index_view():
+    stats = {'all_active_users': User.count(),
+             'today_active_users': User.today_all_active_users(),
              'all_chats': Chat.count(),
-             'today_chats': today_chats if today_chats else 0,
+             'today_chats': Chat.today_new_count(),
              'all_messages': sum(u.msg_count for u in UserStat.all()),
-             'today_messages': today_messages if today_messages else 0,
-             'last_chats': last_chats}
+             'today_messages': Message.today_all_count(),
+             'last_chats': Chat.last_chats_list()}
 
     return render_template('admin/index.html',
                            stats=stats,
                            entities=Entity.generate_list()[0],
-                           Chat=Chat,
-                           format_time=format_time,
-                           logs=get_logs())
+                           format_time=format_time)
 
 
 @app.route('/admin/login', methods=['GET', 'POST'])
-def login():
+def login_view():
     if request.method == 'POST':
         session['hash'] = generate_hash(request.form['password'])
 
@@ -61,14 +53,20 @@ def login():
 
 
 @app.route('/admin/exit')
-def exit_admin():
+def exit_admin_view():
     session.pop('hash', None)
     return redirect('/')
 
 
+@app.route('/admin/logs', methods=['GET', 'POST'])
+@login_required
+def logs_view():
+    return render_template('admin/logs.html', logs=get_logs())
+
+
 @app.route('/admin/settings', methods=['GET', 'POST'])
 @login_required
-def settings():
+def settings_view():
     with open('config.json', 'r') as jsonFile:
         data = json.load(jsonFile)
 
@@ -105,9 +103,7 @@ def settings():
         with open("config.json", "w") as jsonFile:
             json.dump(data, jsonFile)
 
-    return render_template('admin/settings.html',
-                           data=data,
-                           logs=get_logs())
+    return render_template('admin/settings.html', data=data)
 
 
 def format_time(ts):
@@ -122,8 +118,13 @@ def generate_hash(text):
 
 
 def get_logs():
-    with open('../confstat-bot/bot.log', 'r') as log:
-        log = log.read()
-        log_list = [line.split(' - ') for line in reversed(log.split('\n')) if "Timed out" not in line]
+    try:
+        # TODO: fix path
+        with open('../confstat-bot/bot.log', 'r') as log:
+            log = log.read()
+            log_list = [line.split(' - ') for line in reversed(log.split('\n')) if "Timed out" not in line]
 
-        return log_list[:10]
+            return log_list[1:51]
+
+    except FileNotFoundError:
+        return []

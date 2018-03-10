@@ -50,28 +50,6 @@
                         <h4 class="page-title">{% block section_name %}{% endblock %}</h4>
                     </li>
                 </ul>
-
-                <!-- Right(Notification and Searchbox -->
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <!-- Notification -->
-                        <div class="notification-box">
-                            <ul class="list-inline m-b-0">
-                                <li>
-                                    <a href="javascript:void(0);" class="right-bar-toggle">
-                                        <i class="zmdi zmdi-notifications-none"></i>
-                                    </a>
-                                    <div class="noti-dot">
-                                        <span class="dot"></span>
-                                        <span class="pulse"></span>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <!-- End Notification bar -->
-                    </li>
-                </ul>
-
             </div><!-- end container -->
         </div><!-- end navbar -->
     </div>
@@ -87,6 +65,12 @@
                     <li>
                         <a href="/admin/" class="waves-effect">
                             <i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/logs" class="waves-effect">
+                            <i class="zmdi zmdi-collection-text"></i> <span> Logs </span>
                         </a>
                     </li>
 
@@ -131,34 +115,6 @@
     <!-- ============================================================== -->
     <!-- End Right content here -->
     <!-- ============================================================== -->
-
-
-    <!-- Right Sidebar -->
-    <div class="side-bar right-bar">
-        <a href="javascript:void(0);" class="right-bar-toggle">
-            <i class="zmdi zmdi-close-circle-o"></i>
-        </a>
-        <h4 class="">Notifications</h4>
-        <div class="notification-list nicescroll">
-            <ul class="list-group list-no-border user-list">
-
-                {% for log in logs %}
-                    <li class="list-group-item">
-                        <a href="#" class="user-list-item">
-                            <div class="user-desc">
-                                <span class="name">{{ log[1] }}</span>
-                                <span class="desc">{{ log[2] }}</span>
-                                <span class="time">{{ log[0] }}</span>
-                            </div>
-                        </a>
-                    </li>
-                {% endfor %}
-
-            </ul>
-        </div>
-    </div>
-    <!-- /Right-bar -->
-
 </div>
 <!-- END wrapper -->
 
