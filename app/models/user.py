@@ -25,16 +25,15 @@ class User(db.Model):
             else:
                 return False
 
+    """ ADMIN PANEL """
+
+    # Today active users at all
     @staticmethod
-    def get_today():
+    def today_all_active_users():
         t = datetime.today()
-        today = round(datetime(t.year, t.month, t.day, 0).timestamp())
-        yesterday = round(datetime(t.year, t.month, t.day - 1, 0).timestamp())
+        today = int(datetime(t.year, t.month, t.day, 0).timestamp())
 
-        today_users = db.select('SELECT COUNT(*) AS count FROM '
-                                '(SELECT DISTINCT cid FROM user_stats '
-                                'WHERE last_activity > {} '
-                                'AND last_activity < {}) '
-                                'user_stats'.format(yesterday, today))
+        return len(db.select('SELECT DISTINCT uid FROM messages '
+                             'WHERE date >= {}'.format(today)))
 
-        return today_users[0]['count']
+    """ /ADMIN PANEL """

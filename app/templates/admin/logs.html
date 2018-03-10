@@ -1,0 +1,18 @@
+{% extends "admin/base.html" %}
+
+{% block section_name %}Settings{% endblock %}
+
+{% block content %}
+    <div class="row">
+        {% for log in logs %}
+                    <li class="list-group-item">
+                            <div>
+                                <span class="name">{{ log[1] }}</span>
+                                <span class="desc">{{ log[2] }}</span>
+                                <span class="time">{{ log[0] }}</span>
+                            </div>
+                    </li>
+                {% endfor %}
+    </div>
+    <!-- end row -->
+{% endblock %}

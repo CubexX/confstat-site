@@ -17,7 +17,7 @@
             <div class="info-block well">
                 <div class="well-title">
                     <b>General info (since {{ add_date }})</b>
-                    <span class="badge">UTC +3</span>
+                    <span class="badge">UTC +5</span>
                 </div>
 
                 <div class="well-content">
@@ -25,6 +25,12 @@
                         <i class="fa fa-comments" aria-hidden="true"></i>
                         <span class="icon-about">Total messages</span>
                         <span class="badge">{{ chart['msg_values'][-1] }}</span>
+                    </div>
+
+                    <div class="info-line">
+                        <i class="fa fa-calendar"></i>
+                        <span class="icon-about">Today messages</span>
+                        <span class="badge">{{ today_messages }}</span>
                     </div>
 
                     <div class="info-line">
